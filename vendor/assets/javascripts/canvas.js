@@ -53,7 +53,7 @@ function canvasApp(){
 		x=200;
 		context.translate(x+.5*width,y+.5*height);
 		context.rotate(2*pie/3);
-		context.fillStyle = 'red';
+		context.fillStyle = 'blue';
 		context.fillRect(-.5*width,-.5*height,width,height);
 
 
