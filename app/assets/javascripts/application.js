@@ -13,5 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require modernizr
-//= require canvas.js
+//= require processing.js
 //= require_tree .
