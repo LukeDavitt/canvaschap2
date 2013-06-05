@@ -122,6 +122,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
+  highline
   jquery-rails
   modernizr-rails (~> 2.6.1)
   rails (= 3.2.11)
