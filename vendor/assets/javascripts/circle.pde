@@ -9,7 +9,7 @@ PFont font;
 
 void setup() {
   size(windowWidth, windowHeight, P3D);
-  frameRate(30); 
+  frameRate(15); 
 }
 
 //jquery resize for browser window and reset stuff for processing
@@ -53,9 +53,9 @@ void draw() {
 
   font = loadFont("FFScala.ttf"); 
 
-  textFont(font);
-  textSize(40);
-  text("work", 100, 60); 
+  //textFont(font);
+  //textSize(40);
+  //text("work", 100, 60); 
 }
 
 void mouseClicked(){
