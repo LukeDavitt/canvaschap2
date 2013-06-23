@@ -53,14 +53,7 @@ void draw() {
 
   font = loadFont("FFScala.ttf"); 
 
-  //textFont(font);
-  //textSize(40);
-  //text("work", 100, 60); 
 }
-
-/*void mouseClicked(){
-    mouseCheck(workBall,techBall,sandBall);
-}*/
 
 void mouseCheck(MenuBall ball, MenuBall ball2, MenuBall ball3){
   ballClicked(ball, ball2, ball3);

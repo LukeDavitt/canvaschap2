@@ -1,19 +1,24 @@
 windowWidth = $(window).width()-15;
 windowHeight = $(window).height()-22;
+var centerX = windowWidth /2;
+var centerY = windowHeight /2;
+var yUpperLimit = centerY + 200;
+var yLowerLimit = centerY - 200;
+var xUpperLimit = centerX + 500;
+var xLowerLimit = centerX - 500;
 
-Planet sun = new Planet('sun', 25,[204, 102, 0],[156, 146, 132],windowWidth/2,windowHeight/2,500);
-Planet earth = new Planet('earth', 10,[204, 102, 0],[156, 146, 132],windowWidth/4,windowHeight/4,10);
+Planet sun = new Planet('sun', 25,[204, 102, 0],[156, 146, 132],centerX,centerY);
+Planet earth = new Planet('earth', 10,[204, 102, 0],[156, 146, 132],null,centerY);
 
 void setup()
 {
 	size(windowWidth, windowHeight, P3D);
-	frameRate(20); 
+	frameRate(60); 
 }
 
 //jquery resize for browser window and reset stuff for processing
 $(window).resize(function() 
 {
-
   var canvas = document.getElementById('canvasWindow');
   windowWidth = $(window).width()-15;
   windowHeight = $(window).height()-22;
@@ -26,22 +31,22 @@ $(window).resize(function()
 void draw()
 {
 	background(200);
-	sun.gravitate(earth);
-	earth.update();
-	earth.draw();
+  earth.updateForEllipse();
+  earth.draw();
 	sun.draw();
 }
 
 
-class Planet  {
+class Planet  
+{
   var dx,dy,force,distance;
 
-  Planet(string nameIs, float radiusInt, int[] specularClr, int[] fillClr,X,Y,mass){
+  Planet(string nameIs, float radiusInt, int[] specularClr, int[] fillClr,X,Y){
     
-    this.x = X;
-    this.y = Y;
-    this.rotatex = 2;
-    this.rotatey = 0;
+    if(X)
+      this.x = X;
+    if(Y)
+      this.y = Y;
     this.radius = radiusInt;
     this.name = nameIs;
     this.spcRed = specularClr[0];
@@ -50,7 +55,8 @@ class Planet  {
     this.fillRed = fillClr[0];
     this.fillGreen = fillClr[1];
     this.fillBlue = fillClr[2];
-    this.mass = mass;
+    this.yoperator = 'sub';
+    this.xoperator = 'sub';
   }
 
   void draw()
@@ -65,11 +71,56 @@ class Planet  {
     popMatrix();
   }
 
-  void update()
-  {
-  	this.x += dx;
-  	this.y += dy;
+  void updateForEllipse()
+  {  
+    if (this.y === yUpperLimit)
+    {
+      this.yoperator = 'sub';
+    }
+    else if (this.y === yLowerLimit)
+    {
+      this.yoperator = 'add';
+    }
+
+    if (this.x === centerX)
+    {
+      if (this.y > centerY)
+        this.xoperator = 'sub';
+      else
+        this.xoperator = 'add';
+    }
+
+
+    switch(this.yoperator)
+    {
+      case 'sub':
+        this.y -= 1;
+        break;
+      case 'add':
+        this.y += 1;
+        break;
+      default:
+        alert('something went wrong');
+        return;
+        break;
+    }
+
+    switch(this.xoperator)
+    {
+      case 'add':
+        this.x = centerX + Math.sqrt(Math.pow(500, 2)*(1-((Math.pow((this.y-centerY),2))/(Math.pow(200,2)))));
+        break;
+      case 'sub':
+        this.x = centerX - Math.sqrt(Math.pow(500, 2)*(1-((Math.pow((this.y-centerY),2))/(Math.pow(200,2)))));
+        break;
+      default:
+        alert('something went wrong');
+        return;
+        break;
+    }
   }
+
+
 
   void gravitate(body)
   {
@@ -79,6 +130,7 @@ class Planet  {
   	dx /= distance;
   	dy /= distance;
   	force = (body.mass * this.mass)/Math.pow(distance, 2);
+  	dx *= force;
   	dy *= force;
   	body.dx += dx;
   	body.dy += dy;
