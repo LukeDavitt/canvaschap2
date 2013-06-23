@@ -13,7 +13,7 @@ Planet earth = new Planet('earth', 10,[204, 102, 0],[156, 146, 132],null,centerY
 void setup()
 {
 	size(windowWidth, windowHeight, P3D);
-	frameRate(60); 
+	frameRate(20); 
 }
 
 //jquery resize for browser window and reset stuff for processing
