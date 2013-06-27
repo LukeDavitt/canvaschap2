@@ -2,13 +2,15 @@ windowWidth = $(window).width()-15;
 windowHeight = $(window).height()-22;
 var centerX = windowWidth /2;
 var centerY = windowHeight /2;
-var yUpperLimit = centerY + 200;
-var yLowerLimit = centerY - 200;
-var xUpperLimit = centerX + 500;
-var xLowerLimit = centerX - 500;
+var yOffset = 50;
+var xOffset = 100;
+var yUpperLimit = centerY + yOffset;
+var yLowerLimit = centerY - yOffset;
+var xUpperLimit = centerX + xOffset;
+var xLowerLimit = centerX - xOffset;
 
-Planet sun = new Planet('sun', 25,[204, 102, 0],[156, 146, 132],centerX,centerY);
-Planet earth = new Planet('earth', 10,[204, 102, 0],[156, 146, 132],null,centerY);
+Planet sun = new Planet('sun', 15,[204, 102, 0],[156, 146, 132],centerX,centerY);
+Planet earth = new Planet('earth', 5,[204, 102, 0],[156, 146, 132],null,centerY);
 
 void setup()
 {
@@ -16,16 +18,6 @@ void setup()
 	frameRate(20); 
 }
 
-//jquery resize for browser window and reset stuff for processing
-$(window).resize(function() 
-{
-  var canvas = document.getElementById('canvasWindow');
-  windowWidth = $(window).width()-15;
-  windowHeight = $(window).height()-22;
-  canvas.height = windowHeight;
-  canvas.width = windowWidth;
-  size(windowWidth,windowHeight);
-});
 
 
 void draw()
@@ -108,10 +100,10 @@ class Planet
     switch(this.xoperator)
     {
       case 'add':
-        this.x = centerX + Math.sqrt(Math.pow(500, 2)*(1-((Math.pow((this.y-centerY),2))/(Math.pow(200,2)))));
+        this.x = centerX + Math.sqrt(Math.pow(xOffset, 2)*(1-((Math.pow((this.y-centerY),2))/(Math.pow(yOffset,2)))));
         break;
       case 'sub':
-        this.x = centerX - Math.sqrt(Math.pow(500, 2)*(1-((Math.pow((this.y-centerY),2))/(Math.pow(200,2)))));
+        this.x = centerX - Math.sqrt(Math.pow(xOffset, 2)*(1-((Math.pow((this.y-centerY),2))/(Math.pow(yOffset,2)))));
         break;
       default:
         alert('something went wrong');
